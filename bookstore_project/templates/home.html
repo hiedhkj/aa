@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - My Web{% endblock %}
+
+{% block content %}
+<img src="{% static 'pngtree-taobao-bookstore-creative-poster-banner-background-image_163775.jpg' %}" alt="Web Banner" class="web-banner">
+<h2 class="book-list-header">Recommended Books</h2>
+<div class="book-list-container">
+    <button class="nav-button prev" onclick="scrollBooks('book-list1', -1)">&#9664;</button>
+    <div class="book-list">
+        <div class="book-list-wrapper" id="book-list1">
+            {% for book in random_books %}
+            <a href="{% url 'book_detail' book.id %}" class="book-item-link">
+                <div class="book-item">
+                    <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+                    <div class="book-info">
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ book.author }}</p>
+                        <p class="rating">Rating: {{ book.rating }}</p>
+                        <p class="book-price">{{ book.price }} $</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <button class="nav-button next" onclick="scrollBooks('book-list1', 1)">&#9654;</button>
+</div>
+<h2 class="book-list-header">Most Expensive Books</h2>
+<div class="book-list-container">
+    <button class="nav-button prev" onclick="scrollBooks('book-list3', -1)">&#9664;</button>
+    <div class="book-list">
+        <div class="book-list-wrapper" id="book-list3">
+            {% for book in expensive_books %}
+            <a href="{% url 'book_detail' book.id %}" class="book-item-link">
+                <div class="book-item">
+                    <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+                    <div class="book-info">
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ book.author }}</p>
+                        <p class="rating">Rating: {{ book.rating }}</p>
+                        <p class="book-price">{{ book.price }} $</p> 
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <button class="nav-button next" onclick="scrollBooks('book-list3', 1)">&#9654;</button>
+</div>
+<img src="{% static 'blue-web-banner-with-geometric-background-horizontal-promotion-banners-with-blue-tech-gradient-colors-abstract-geometric-backdrop-header-design-vibrant-coupon-template_181182-15772.jpg' %}" alt="Web Banner" class="web-banner-two">
+<h2 class="book-list-header">Next Books</h2>
+<div class="book-list-container">
+    <button class="nav-button prev" onclick="scrollBooks('book-list2', -1)">&#9664;</button>
+    <div class="book-list">
+        <div class="book-list-wrapper" id="book-list2">
+            {% for book in random_books %}
+            <a href="{% url 'book_detail' book.id %}" class="book-item-link">
+                <div class="book-item">
+                    <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+                    <div class="book-info">
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ book.author }}</p>
+                        <p class="rating">Rating: {{ book.rating }}</p>
+                        <p class="book-price">{{ book.price }} $</p> 
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <button class="nav-button next" onclick="scrollBooks('book-list2', 1)">&#9654;</button>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

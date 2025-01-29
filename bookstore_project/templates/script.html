@@ -1,0 +1,106 @@
+<script>
+    const wrapper = document.querySelector(".wrapper"),
+        signupHeader = document.querySelector(".signup header"),
+        loginHeader = document.querySelector(".login header"),
+        modal = document.getElementById("myModal"),
+        btn = document.getElementById("openModal"),
+        messageContainer = document.getElementById("messageContainer");
+
+    loginHeader.addEventListener("click", () => {
+        wrapper.classList.add("active");
+    });
+
+    signupHeader.addEventListener("click", () => {
+        wrapper.classList.remove("active");
+    });
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    document.getElementById("signupForm").onsubmit = function(event) {
+        if (!document.getElementById("signupCheck").checked) {
+            alert("You must accept the terms & conditions to sign up.");
+            event.preventDefault();
+        }
+    };
+
+    function removeMessages() {
+        setTimeout(() => {
+            const messages = document.querySelectorAll(".message");
+            messages.forEach(message => {
+                message.style.display = "none";
+            });
+        }, 4000);
+    }
+
+    let scrollIndex = 0;
+    const itemsPerPage = 7; // Adjust this value based on how many items you want to show per page
+
+    function scrollBooks(listId, direction) {
+        const listWrapper = document.getElementById(listId);
+        const items = listWrapper.querySelectorAll('.book-item');
+        const itemWidth = items[0].clientWidth + 10; // Add the gap between items
+        let scrollIndex = parseInt(listWrapper.getAttribute('data-scroll-index')) || 0;
+        const itemsPerPage = 7; // Adjust this value based on how many items you want to show per page
+
+        scrollIndex += direction;
+
+        if (scrollIndex < 0) {
+            scrollIndex = 0;
+        } else if (scrollIndex >= items.length - itemsPerPage + 1) {
+            scrollIndex = items.length - itemsPerPage;
+        }
+
+        listWrapper.style.transform = `translateX(-${scrollIndex * itemWidth}px)`;
+        listWrapper.setAttribute('data-scroll-index', scrollIndex);
+    }
+
+    let cart = [];
+
+    function toggleCartModal() {
+        const cartModal = document.getElementById("cart-modal");
+        cartModal.style.display = (cartModal.style.display === "block") ? "none" : "block";
+    }
+
+    function updateCartCount() {
+        const cartCount = document.getElementById("cart-count");
+        cartCount.innerText = cart.length;
+    }
+
+    function addToCart(book) {
+        cart.push(book);
+        updateCartCount();
+        showCartItems();
+    }
+
+    function showCartItems() {
+        const cartItems = document.getElementById("cart-items");
+        cartItems.innerHTML = '';
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.innerText = `${item.title} - ${item.price} $`;
+            cartItems.appendChild(li);
+        });
+    }
+
+    document.getElementById("addToCartButton").addEventListener("click", function(event) {
+        event.preventDefault();
+        const book = {
+            title: "{{ book.title }}",
+            price: "{{ book.price }}"
+        };
+        addToCart(book);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        updateCartCount();
+        showCartItems();
+    });
+</script>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Books - My Web{% endblock %}
+
+{% block content %}
+<!-- <h2 class="book-list-header">All Books</h2> -->
+<div class="book-grid-container">
+    {% for book in all_books %}
+    <a href="{% url 'book_detail' book.id %}" class="book-item-link">
+        <div class="book-item">
+            <img src="{{ book.cover_image }}" alt="{{ book.title }}">
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.author }}</p>
+                <p class="rating">Rating: {{ book.rating }}</p>
+                <p class="book-price">{{ book.price }} $</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% include 'footer.html' %}
+{% endblock %}

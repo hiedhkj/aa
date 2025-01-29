@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }} - My Web{% endblock %}
+
+{% block content %}
+<br>
+<div class="book-detail-container">
+    <h1 class="book-title">{{ book.title }}</h1>
+    <div class="book-detail">
+        <div class="book-cover-container">
+            <img class="book-cover" src="{{ book.cover_image }}" alt="{{ book.title }}">
+            <div class="book-meta">
+                <p>Genre: <span>{{ book.get_genre_display }}</span></p>
+                <p>Language: <span>{{ book.language }}</span></p>
+            </div>
+        </div>
+        <div class="book-info">
+            <p>Author: <span>{{ book.author }}</span></p>
+            <p>Rating: <span>{{ book.rating }}</span></p>
+            <p>Price: <span>{{ book.price }} $</span></p>
+            <p>Published Date: <span>{{ book.published_date }}</span></p>
+            <p>Publisher: <span>{{ book.publisher }}</span></p>
+            <p>Description: <span>{{ book.description }}</span></p>
+            <a href="#" class="add-to-cart-button" id="addToCartButton">Add to Cart</a>
+            {% if book.stock > 0 %}
+            <a href="{% url 'buy_now' book.id %}" class="add-to-cart-button">Buy Now</a>
+            {% else %}
+                <a class="add-to-cart-button" style="background-color: darkorange;" disabled>Out of Stock</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<h2 class="book-list-header">Books in the Same Genre</h2>
+<div class="book-list-container">
+    <button class="nav-button prev" onclick="scrollBooks('same-genre-list', -1)">&#9664;</button>
+    <div class="book-list">
+        <div class="book-list-wrapper" id="same-genre-list">
+            {% for same_genre_book in same_genre_books %}
+            <a href="{% url 'book_detail' same_genre_book.id %}" class="book-item-link">
+                <div class="book-item">
+                    <img src="{{ same_genre_book.cover_image }}" alt="{{ same_genre_book.title }}">
+                    <div class="book-info">
+                        <h3>{{ same_genre_book.title }}</h3>
+                        <p>{{ same_genre_book.author }}</p>
+                        <p class="rating">Rating: {{ same_genre_book.rating }}</p>
+                        <p class="book-price">{{ same_genre_book.price }} $</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <button class="nav-button next" onclick="scrollBooks('same-genre-list', 1)">&#9654;</button>
+</div>
+{% include 'footer.html' %}
+{% endblock %}
